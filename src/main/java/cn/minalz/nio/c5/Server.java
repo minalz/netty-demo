@@ -75,11 +75,11 @@ public class Server {
                 } else if (key.isReadable()) {
                     try {
                         // 拿到触发事件的channel
-                        SocketChannel channel = (SocketChannel) key.channel();
+                        SocketChannel sc = (SocketChannel) key.channel();
                         // 获取selectionKey上关联的附件
                         ByteBuffer buffer = (ByteBuffer) key.attachment();
                         // 如果是正常断开 read方法的返回值是-1
-                        int read = channel.read(buffer);
+                        int read = sc.read(buffer);
                         if (read == -1) {
                             key.cancel();
                         } else {
