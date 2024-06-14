@@ -1,35 +1,31 @@
-package cn.minalz.c4;
+package cn.minalz.nio.c4;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zhouwei
- * @date 2024/6/11 11:02
+ * @date 2024/6/11 10:58
  */
 @Slf4j
-public class WalkDeleteFile {
+public class WalkJarFile {
 
-    /**
-     * 删除是危险操作，确保要递归删除的文件夹没有重要内容
-     */
     public static void main(String[] args) throws IOException {
-        Path path = Paths.get("D:\\jdk17 - 副本");
+        Path path = Paths.get("D:\\jdk17");
+        AtomicInteger jarCount = new AtomicInteger();
         Files.walkFileTree(path, new SimpleFileVisitor<Path>(){
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                Files.delete(file);
+                if (file.toFile().getName().endsWith(".jar")) {
+                    jarCount.incrementAndGet();
+                }
                 return super.visitFile(file, attrs);
             }
-
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                Files.delete(dir);
-                return super.postVisitDirectory(dir, exc);
-            }
         });
+        log.info("jarCount: {}", jarCount);
     }
 }

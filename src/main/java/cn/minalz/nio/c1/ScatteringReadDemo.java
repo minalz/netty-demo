@@ -1,4 +1,4 @@
-package cn.minalz.c1;
+package cn.minalz.nio.c1;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
